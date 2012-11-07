@@ -11,7 +11,9 @@ package motionplanning;
 public class Coordinate implements Comparable<Coordinate> {
     private int xValue;
     private int yValue;
-
+    public static int hashValueX;
+    public static int hashValueY;
+    
     private Coordinate parent;
     
     private int gCost;
@@ -21,6 +23,7 @@ public class Coordinate implements Comparable<Coordinate> {
     public Coordinate(int xValue, int yValue) {
         this.xValue = xValue;
         this.yValue = yValue;
+        
     }
 
     public int getXValue() {
@@ -50,7 +53,10 @@ public class Coordinate implements Comparable<Coordinate> {
     
     @Override
     public int hashCode() {
-        return super.hashCode();
+        int hash = 23;
+        hash=hash*hashValueX+xValue;
+        hash=hash*hashValueY+yValue;
+        return hash;
     }
 
     /**
@@ -69,19 +75,27 @@ public class Coordinate implements Comparable<Coordinate> {
 
     @Override
     public String toString() {
-        return super.toString();
+        return "Coordinate{" + "xValue=" + xValue + ", yValue=" + yValue + '}';
+    }
+
+    
+
+    public int getgCost() {
+        return gCost;
+    }
+
+    public void setgCost(int gCost) {
+        this.gCost = gCost;
     }
     
     
-    
-    public int calculateGCost(Coordinate startCoordinate){
-        return ((startCoordinate.xValue-this.xValue)+(startCoordinate.yValue-this.yValue));
-    }
     public int calculateHCost(Coordinate goalCoordinate){
-        return ((goalCoordinate.xValue-this.xValue)+(goalCoordinate.yValue-this.yValue));
+        this.hCost = (goalCoordinate.xValue-this.xValue)+(goalCoordinate.yValue-this.yValue);
+        return hCost;
     }
-    public int calculateFCost(){
-        return fCost+gCost;
+    public int calculateFCost(Coordinate goalCoordinate){
+        this.fCost = calculateHCost(goalCoordinate) +this.gCost;
+        return fCost;
     }
 
     @Override
