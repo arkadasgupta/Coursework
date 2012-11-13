@@ -2,34 +2,30 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package motionplanning;
+package motionplanningST;
 
 /**
  *
  * @author arka
  */
-public class Coordinate implements Comparable<Coordinate> {
+public class CoordinateST implements Comparable<CoordinateST> {
     private int xValue;
     private int yValue;
     public static int hashValueX;
     public static int hashValueY;
     
-    private Coordinate parent;
+    private CoordinateST parent;
     
     private int gCost;
     private int hCost;
     private int fCost;
     
-    public Coordinate(int xValue, int yValue) {
+    public CoordinateST(int xValue, int yValue) {
         this.xValue = xValue;
         this.yValue = yValue;
         
     }
 
-    public Coordinate(){
-        
-    }
-    
     public int getXValue() {
         return xValue;
     }
@@ -46,11 +42,11 @@ public class Coordinate implements Comparable<Coordinate> {
         this.yValue = yValue;
     }
 
-    public Coordinate getParent() {
+    public CoordinateST getParent() {
         return parent;
     }
 
-    public void setParent(Coordinate parent) {
+    public void setParent(CoordinateST parent) {
         this.parent = parent;
     }
 
@@ -70,10 +66,10 @@ public class Coordinate implements Comparable<Coordinate> {
      */
     @Override
     public boolean equals(Object o) {
-        if(!(o instanceof Coordinate)){
+        if(!(o instanceof CoordinateST)){
             return false;
         }
-        final Coordinate other = (Coordinate)o;
+        final CoordinateST other = (CoordinateST)o;
         return (other.xValue==this.xValue && other.yValue==this.yValue);
     }
 
@@ -93,17 +89,17 @@ public class Coordinate implements Comparable<Coordinate> {
     }
     
     
-    public int calculateHCost(Coordinate goalCoordinate){
+    public int calculateHCost(CoordinateST goalCoordinate){
         this.hCost = (goalCoordinate.xValue-this.xValue)+(goalCoordinate.yValue-this.yValue);
         return hCost;
     }
-    public int calculateFCost(Coordinate goalCoordinate){
+    public int calculateFCost(CoordinateST goalCoordinate){
         this.fCost = calculateHCost(goalCoordinate) +this.gCost;
         return fCost;
     }
 
     @Override
-    public int compareTo(Coordinate t) {
+    public int compareTo(CoordinateST t) {
         return this.fCost-t.fCost;
     }
 }
