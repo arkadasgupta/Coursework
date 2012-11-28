@@ -2,7 +2,7 @@
  * This code is copied from algowiki.net
  */
 
-package algowiki;
+package newyorkjava;
 
 import java.util.ArrayList;
 import java.util.Collection;

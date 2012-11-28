@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package algowiki;
+package newyorkjava;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -50,12 +50,12 @@ public class Graph {
                     new Node(Integer.parseInt(arcInfo[2])),Integer.parseInt(arcInfo[3]));
             }
         } catch (IOException ex) {
-            Logger.getLogger(newyorkjava.Graph1.class.getName()).log(Level.SEVERE, null, ex);
+            //Logger.getLogger(newyorkjava.Graph1.class.getName()).log(Level.SEVERE, null, ex);
         }finally{
             try {
                 in.close();
             } catch (IOException ex) {
-                Logger.getLogger(newyorkjava.Graph1.class.getName()).log(Level.SEVERE, null, ex);
+                //Logger.getLogger(newyorkjava.Graph1.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         int maxAdj = 0;
@@ -89,12 +89,12 @@ public class Graph {
                        new Node(Integer.parseInt(lineInfo[1]), Double.parseDouble(lineInfo[3]), Double.parseDouble(lineInfo[2])));
             }
         } catch (IOException ex) {
-            Logger.getLogger(newyorkjava.Graph1.class.getName()).log(Level.SEVERE, null, ex);
+            //Logger.getLogger(newyorkjava.Graph1.class.getName()).log(Level.SEVERE, null, ex);
         }finally{
             try {
                 in.close();
             } catch (IOException ex) {
-                Logger.getLogger(newyorkjava.Graph1.class.getName()).log(Level.SEVERE, null, ex);
+                //Logger.getLogger(newyorkjava.Graph1.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         

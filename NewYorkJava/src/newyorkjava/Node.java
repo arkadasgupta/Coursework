@@ -2,7 +2,7 @@
  * This code is copied from algowiki.net
  */
 
-package algowiki;
+package newyorkjava;
 
 public class Node implements Comparable<Node> {
    

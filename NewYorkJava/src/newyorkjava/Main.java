@@ -4,9 +4,6 @@
  */
 package newyorkjava;
 
-import algowiki.Graph;
-import algowiki.Node;
-import algowiki.Edge;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileReader;
@@ -23,7 +20,7 @@ import java.util.logging.Logger;
  *
  * @author arka
  */
-public class NewYorkJava {
+public class Main {
 
     static final double LAT = 364812.2109103587;
     static final double LONG = 274944.8683871276;
@@ -46,7 +43,7 @@ public class NewYorkJava {
         System.out.println("Coordinate Processing Done");
         
         long millis = System.currentTimeMillis();
-        new NewYorkJava().findRouteByAStar(1,264346,graph);
+        new Main().findRouteByAStar(1,264346,graph);
         System.out.println("Time taken by A-Star:"+(System.currentTimeMillis()-millis));
     }
 
@@ -102,14 +99,14 @@ public class NewYorkJava {
             }
 
         } catch (IOException ex) {
-            Logger.getLogger(newyorkjava.Graph1.class.getName()).log(Level.SEVERE, null, ex);
+            //Logger.getLogger(newyorkjava.Graph1.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             out.close();
             try {
                 in.close();
                 
             } catch (IOException ex) {
-                Logger.getLogger(newyorkjava.Graph1.class.getName()).log(Level.SEVERE, null, ex);
+                //Logger.getLogger(newyorkjava.Graph1.class.getName()).log(Level.SEVERE, null, ex);
             }
             
         }
