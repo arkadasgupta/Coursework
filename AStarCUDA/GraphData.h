@@ -60,6 +60,7 @@ typedef struct{
     int nodeNum;
     float fCost;
     int parent;
+    size_t pos;
 }Node;
 
 void generateGraph(GraphData *graph);
@@ -67,5 +68,40 @@ void generateGraph(GraphData *graph);
 void getNodeDetails(GraphData *graph, int vertex);
 
 bool compareNodeCost(void* a,void* b);
+
+static int
+cmp_fCost(double next, double curr)
+{
+	return (next < curr);
+}
+
+
+static double
+get_fCost(void *a)
+{
+	return (double) ((Node*) a)->fCost;
+}
+
+
+static void
+set_fCost(void *a, double fCost)
+{
+	((Node*) a)->fCost = fCost;
+}
+
+
+static size_t
+get_pos(void *a)
+{
+	return ((Node*) a)->pos;
+}
+
+
+static void
+set_pos(void *a, size_t pos)
+{
+	((Node *) a)->pos = pos;
+}
+
 #endif	/* GRAPHDATA_H */
 

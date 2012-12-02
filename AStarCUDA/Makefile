@@ -6,20 +6,20 @@
 COMPILER = g++
 FLAGS = -Wall -g
 GRAPH_DATA = GraphData.o
-HEADERS = GraphData.h StringSplit.h PQ.h
-PQ_HEADERS = PQ.h alloc.h common.h
-PQ_OBJ = PQ.o
-CUDA_ASTAR = CudaAStar.o
+HEADERS = GraphData.h StringSplit.h
+PQ_HEADERS = pqueue.h
+PQ_OBJ = pqueue.o
+CUDA_ASTAR = CudaAStar.cpp
 # ****************************************************
 # Targets needed to bring the executable up to date
 all: cudaAStar
 
-cudaAStar: $(CUDA_ASTAR) $(GRAPH_DATA) $(PQ_OBJ)
-	$(COMPILER) $(FLAGS) -o astarcuda $(CUDA_ASTAR) $(GRAPH_DATA) $(PQ_OBJ)
+cudaAStar: $(GRAPH_DATA) $(PQ_OBJ)
+	$(COMPILER) $(FLAGS) $(CUDA_ASTAR) $(GRAPH_DATA) $(PQ_OBJ) -o astarcuda 
 
-PQ.o : $(PQ_HEADERS)
+pqueue.o : $(PQ_HEADERS)
 GraphData.o: $(HEADERS)
-CudaAStar.o: $(HEADERS)
+#CudaAStar.o: $(HEADERS)
 
 
 clean: 

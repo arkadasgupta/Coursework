@@ -6,19 +6,49 @@
  */
 
 #include <cstdlib>
-#include "PQ.h"
 #include<iostream>
 
-//using namespace std;
+#include "pqueue.h"
 
 typedef struct{
     int nodeNum;
-    float fCost;
+    double fCost;
     int parent;
-}Node;
+    size_t pos;
+}node_t;
 
-bool compareNodeCost(void* a,void* b){
-    return ((Node*)a)->fCost<((Node*)b)->fCost;
+static int
+cmp_fCost(double next, double curr)
+{
+	return (next < curr);
+}
+
+
+static double
+get_fCost(void *a)
+{
+	return (double) ((node_t *) a)->fCost;
+}
+
+
+static void
+set_fCost(void *a, double fCost)
+{
+	((node_t *) a)->fCost = fCost;
+}
+
+
+static size_t
+get_pos(void *a)
+{
+	return ((node_t *) a)->pos;
+}
+
+
+static void
+set_pos(void *a, size_t pos)
+{
+	((node_t *) a)->pos = pos;
 }
 
 
@@ -30,17 +60,33 @@ using namespace std;
  */
 int main(int argc, char** argv) {
 
-    Node src_node = {1,2,0};
-    Node goal_node = {2,1,-1};
-    
-    pq_status_t pq_stat;
-    pq_t frontier = pq_new_queue(5,&compareNodeCost,&pq_stat);
-    pq_enqueue(frontier,(void*)(&src_node),&pq_stat);
-    pq_enqueue(frontier,(void*)(&goal_node),&pq_stat);
-    Node* currentNode = (Node*)pq_inspect_next(frontier,&pq_stat); //WORKING
-    cout<<currentNode->nodeNum<<endl;
-    currentNode = (Node*)pq_dequeue(frontier,&pq_stat); //GIVING SEGFAULT FROM INSIDE THIS
-    cout<<currentNode->nodeNum<<endl;
-    return 0;
+        pqueue_t *pq;
+	node_t   *ns;
+	node_t   *n;
+
+	ns = (node_t*)malloc(10 * sizeof(node_t));
+	pq = pqueue_init(10, cmp_fCost, get_fCost, set_fCost, get_pos, set_pos);
+	if (!(ns && pq)) return 1;
+
+	ns[0]={-5,-5,1};pqueue_insert(pq, &ns[0]);
+	ns[1]={-4,4,2};pqueue_insert(pq, &ns[1]);
+	ns[2]={-6,6,3};pqueue_insert(pq, &ns[2]);
+	//ns[3].fCost = 6; ns[3].val = -6; pqueue_insert(pq, &ns[3]);
+	//ns[4].fCost = 1; ns[4].val = -1; pqueue_insert(pq, &ns[4]);
+
+	n = (node_t*)pqueue_peek(pq);
+	cout<<"peek: %e [%d]\n"<< n->fCost<<":"<<n->nodeNum<<endl;
+
+	pqueue_change_priority(pq, 8, &ns[1]);
+	pqueue_change_priority(pq, 7, &ns[2]);
+
+   	while ((n = (node_t*)pqueue_pop(pq)))
+		cout<<"pop: %e [%d]\n"<<n->fCost<<":"<<n->nodeNum<<endl;
+
+	pqueue_free(pq);
+	free(ns);
+
+	return 0;
+    //return 0;
 }
 
