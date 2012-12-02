@@ -7,102 +7,16 @@
 
 #include "GraphData.h"
 //#include "PQ.h"
-#include "pqueue.h"
+#include "customQueue.h"
 #include <math.h>
 
 using namespace std;
 
-/*******************CUSTOM QUEUE**************/
-typedef struct heapData {
-    int nodeNum;
-    int parent;
-} heapData;
- 
-typedef struct heapNode {
-    float value;
-    Node data;               //dummy
-} heapNode;
- 
-typedef struct PQ {
-    heapNode* heap;
-    int size;
-} PQ;
- 
-void insert(heapNode aNode, heapNode* heap, int size) {
-    int idx;
-    heapNode tmp;
-    idx = size + 1;
-    heap[idx] = aNode;
-    while (heap[idx].value < heap[idx/2].value && idx > 1) {
-    tmp = heap[idx];
-    heap[idx] = heap[idx/2];
-    heap[idx/2] = tmp;
-    idx /= 2;
-    }
-}
- 
-void shiftdown(heapNode* heap, int size, int idx) {
-    int cidx;        //index for child
-    heapNode tmp;
-    for (;;) {
-        cidx = idx*2;
-        if (cidx > size) {
-            break;   //it has no child
-        }
-        if (cidx < size) {
-            if (heap[cidx].value > heap[cidx+1].value) {
-                ++cidx;
-            }
-        }
-        //swap if necessary
-        if (heap[cidx].value < heap[idx].value) {
-            tmp = heap[cidx];
-            heap[cidx] = heap[idx];
-            heap[idx] = tmp;
-            idx = cidx;
-        } else {
-            break;
-        }
-    }
-}
- 
-heapNode removeMin(heapNode* heap, int size) {
-    //int cidx;
-    heapNode rv = heap[1];
-    //printf("%d:%d:%d\n", size, heap[1].value, heap[size].value);
-    heap[1] = heap[size];
-    --size;
-    shiftdown(heap, size, 1);
-    return rv;
-}
-void pq_enqueue(heapNode node, PQ *q) {
-    insert(node, q->heap, q->size);
-    ++q->size;
-}
- 
-heapNode pq_dequeue(PQ *q) {
-   heapNode rv = removeMin(q->heap, q->size);
-   --q->size;
-   return rv; 
-}
-heapNode pq_peek(PQ *q) {
-   heapNode rv = q->heap[1];
-   //--q->size;
-   return rv; 
-} 
-void pq_initQueue(PQ *q, int n) {
-   q->size = 0;
-   q->heap = (heapNode*)malloc(sizeof(heapNode)*(n+1));
-}
 
-int pq_empty(PQ *q){
-    return q->size;
-}
-/*******************CUSTOM QUEUE**************/
 
 void findByAStar(GraphData *graph, int src_vertex, int from_vertex);
-void expand(Node **currentNode, GraphData *graph, float goalLat, float goalLong,
-        pqueue_t** frontier, float **gCostArray, float **hCostArray, float **fCostArray);
+//void expand(Node **currentNode, GraphData *graph, float goalLat, float goalLong,
+//        pqueue_t** frontier, float **gCostArray, float **hCostArray, float **fCostArray);
 float computeHeuristic(float latitude, float longitude, float goalLat, float goalLong);
 
 /*
@@ -236,9 +150,8 @@ void findByAStar(GraphData *graph, int src_vertex, int goal_vertex) {
     float goalLat = graph->latitudes[goal_vertex - 1];
     float goalLong = graph->longitudes[goal_vertex - 1];
     pq_enqueue(src, &frontier);
-    cout<<"froniter not emptyt"<<endl;
     heapNode currentHNode;
-    while (pq_empty(&frontier)) {
+    while (!pq_empty(&frontier)) {
         //cout<<"froniter not emptyt"<<endl;
         currentHNode = pq_dequeue(&frontier);
         Node* currentNode = &(currentHNode.data);
@@ -293,32 +206,32 @@ void findByAStar(GraphData *graph, int src_vertex, int goal_vertex) {
     free((void*) fCostArray);
 }
 
-void expand(Node **currentNode, GraphData *graph, float goalLat, float goalLong,
-        pqueue_t** frontier, float **gCostArray, float **hCostArray, float **fCostArray) {
-    int earliest_edge = graph->vertexArray[(*(currentNode))->nodeNum - 1];
-    int final_edge = graph->vertexArray[(*(currentNode))->nodeNum];
-    for (int i = earliest_edge; i < final_edge; i++) {
-        int child = graph->edgeArray[i];
-        if (child == (*(currentNode))->parent) {
-            continue;
-        }
-        //childNode.gCost = currentNode.gCost+e.weight;
-        *(*(gCostArray) + child - 1) = *(*(gCostArray) + ((*(currentNode))->nodeNum - 1)) + graph->weightArray[i];
-        float latitude = graph->latitudes[child - 1];
-        float longitude = graph->longitudes[child - 1];
-        //childNode.hCost=Graph.approxDist(latitude, longitude, goalNode.latitude, goalNode.longitude);
-        *(*(hCostArray) + child - 1) = computeHeuristic(latitude, longitude, goalLat, goalLong);
-        //childNode.fCost=childNode.gCost+childNode.hCost;
-        *(*(fCostArray) + child - 1) = *(*(gCostArray) + child - 1) + *(*(hCostArray) + child - 1);
-        //childNode.parent=currentNode;
-        Node childNode = {child, *(*(fCostArray) + child - 1), (*(currentNode))->nodeNum};
-        cout << "childNode info:" << childNode.nodeNum << ":" << childNode.fCost << ":" << childNode.parent << endl;
-        pqueue_insert(*frontier, (void*) (&childNode));
-    }
-
-    Node* node = (Node*) pqueue_peek(*frontier);
-    cout << "top info:" << node->nodeNum << endl;
-}
+//void expand(Node **currentNode, GraphData *graph, float goalLat, float goalLong,
+//        pqueue_t** frontier, float **gCostArray, float **hCostArray, float **fCostArray) {
+//    int earliest_edge = graph->vertexArray[(*(currentNode))->nodeNum - 1];
+//    int final_edge = graph->vertexArray[(*(currentNode))->nodeNum];
+//    for (int i = earliest_edge; i < final_edge; i++) {
+//        int child = graph->edgeArray[i];
+//        if (child == (*(currentNode))->parent) {
+//            continue;
+//        }
+//        //childNode.gCost = currentNode.gCost+e.weight;
+//        *(*(gCostArray) + child - 1) = *(*(gCostArray) + ((*(currentNode))->nodeNum - 1)) + graph->weightArray[i];
+//        float latitude = graph->latitudes[child - 1];
+//        float longitude = graph->longitudes[child - 1];
+//        //childNode.hCost=Graph.approxDist(latitude, longitude, goalNode.latitude, goalNode.longitude);
+//        *(*(hCostArray) + child - 1) = computeHeuristic(latitude, longitude, goalLat, goalLong);
+//        //childNode.fCost=childNode.gCost+childNode.hCost;
+//        *(*(fCostArray) + child - 1) = *(*(gCostArray) + child - 1) + *(*(hCostArray) + child - 1);
+//        //childNode.parent=currentNode;
+//        Node childNode = {child, *(*(fCostArray) + child - 1), (*(currentNode))->nodeNum};
+//        cout << "childNode info:" << childNode.nodeNum << ":" << childNode.fCost << ":" << childNode.parent << endl;
+//        pqueue_insert(*frontier, (void*) (&childNode));
+//    }
+//
+//    Node* node = (Node*) pqueue_peek(*frontier);
+//    cout << "top info:" << node->nodeNum << endl;
+//}
 
 float computeHeuristic(float latitude, float longitude, float goalLat, float goalLong) {
     return sqrt(pow((latitude - goalLat)*364812.21, 2) +
