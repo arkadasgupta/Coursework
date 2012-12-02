@@ -39,7 +39,7 @@ int main(int argc, char** argv) {
     pq_enqueue(frontier,(void*)(&goal_node),&pq_stat);
     Node* currentNode = (Node*)pq_inspect_next(frontier,&pq_stat); //WORKING
     cout<<currentNode->nodeNum<<endl;
-    Node* currentNode = (Node*)pq_dequeue(frontier,&pq_stat); //GIVING SEGFAULT FROM INSIDE THIS
+    currentNode = (Node*)pq_dequeue(frontier,&pq_stat); //GIVING SEGFAULT FROM INSIDE THIS
     cout<<currentNode->nodeNum<<endl;
     return 0;
 }
