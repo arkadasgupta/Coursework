@@ -26,23 +26,29 @@ typedef struct
     int *vertexArray;
 
     // Vertex count
-    int vertexCount;
+    unsigned int vertexCount;
 
     // (E) This contains pointers to the vertices that each edge is attached to
     int *edgeArray;
 
     // Edge count
-    int edgeCount;
+    unsigned int edgeCount;
 
     // (W) Weight array
     float *weightArray;
+    
+    //Coordinate latitudes
+    float *latitudes;
+    
+    //Coordinate longitudes
+    float *longitudes;
 
 } GraphData;
 
-typedef struct{
-    float latitude;
-    float longitude;
-} CoordinateData;
+//typedef struct{
+//    float latitude;
+//    float longitude;
+//} CoordinateData;
 
 typedef struct{
     int adjList[8];
@@ -50,8 +56,16 @@ typedef struct{
 } AdjacencyList;
 
 
-void generateGraph(GraphData *graph, CoordinateData** coordinates);
+typedef struct{
+    int nodeNum;
+    float fCost;
+    int parent;
+}Node;
 
-void getNodeDetails(GraphData *graph, CoordinateData *coordinate_values, int vertex);
+void generateGraph(GraphData *graph);
+
+void getNodeDetails(GraphData *graph, int vertex);
+
+bool compareNodeCost(void* a,void* b);
 #endif	/* GRAPHDATA_H */
 
