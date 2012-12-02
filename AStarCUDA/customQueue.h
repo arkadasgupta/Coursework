@@ -99,6 +99,9 @@ bool pq_empty(PQ *q){
     return (q->size==0);
 }
 /*******************CUSTOM QUEUE**************/
-
+void pq_free(PQ *q){
+    free(q->heap);
+    q->size = 0;
+}
 #endif	/* CUSTOMQUEUE_H */
 

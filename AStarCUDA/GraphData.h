@@ -69,63 +69,6 @@ void getNodeDetails(GraphData *graph, int vertex);
 
 bool compareNodeCost(void* a,void* b);
 
-//static int
-//cmp_fCost(double next, double curr)
-//{
-//	return (next > curr);
-//}
-
-//
-//static double
-//get_fCost(void *a)
-//{
-//	return (double) ((Node*) a)->fCost;
-//}
-//
-//
-//static void
-//set_fCost(void *a, double fCost)
-//{
-//	((Node*) a)->fCost = fCost;
-//}
-//
-//
-//static size_t
-//get_pos(void *a)
-//{
-//	return ((Node*) a)->pos;
-//}
-//
-//
-//static void
-//set_pos(void *a, size_t pos)
-//{
-//	((Node *) a)->pos = pos;
-//}
-
-
- 
-
- 
-//int main(int argc, char **argv) {
-//    int n; 
-//    int i;
-//    PQ q;
-//    heapNode hn;
-//    n = atoi(argv[1]);
-//    initQueue(&q, n);
-//    srand(time(NULL));
-//    for (i = 0; i < n; ++i) {
-//        hn.value = rand()%10000;
-//        printf("enqueue node with value: %d\n", hn.value);
-//        enqueue(hn, &q);
-//    }
-//    printf("\ndequeue all values:\n");
-//    for (i = 0; i < n; ++i) {
-//        hn = dequeue(&q);
-//        printf("dequeued node with value: %d, queue size after removal: %d\n", hn.value, q.size);
-//    }
-//}
 
 #endif	/* GRAPHDATA_H */
 
