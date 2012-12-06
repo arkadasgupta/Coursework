@@ -29,13 +29,8 @@ int main(int argc, char** argv) {
 
     //getNodeDetails(&graph,1363);
 
-
-
     int src_vertex = 1, from_vertex = 200000;
     findByAStar(&graph, src_vertex, from_vertex);
-
-
-
 
     free((void*) graph.edgeArray);
     free((void*) graph.vertexArray);

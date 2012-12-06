@@ -60,8 +60,12 @@ typedef struct{
     int nodeNum;
     float fCost;
     int parent;
-    size_t pos;
+    //size_t pos;
 }Node;
+
+
+
+
 
 void generateGraph(GraphData *graph);
 

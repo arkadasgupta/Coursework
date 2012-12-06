@@ -103,3 +103,4 @@ void getNodeDetails(GraphData *graph, int vertex){
 bool compareNodeCost(void* a,void* b){
     return ((Node*)a)->fCost<((Node*)b)->fCost;
 }
+
