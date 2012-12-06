@@ -91,6 +91,7 @@ public class Main {
         String sourceCode = AStarUtil.readFile(fname);
 
         new Main().findRouteByAStar(graph, context, sourceCode);
+        System.out.println("Releasing context");
         context.release();
     }
 
@@ -128,9 +129,9 @@ public class Main {
         /* creating the clbuffers */
 
         // select fastest device
-        CLDevice device = context.getDevices()[0];
-        System.out.println("using " + device);
-
+        //CLDevice device = context.getDevices()[0];
+        CLDevice device = context.getMaxFlopsDevice();
+        
         // create command queue on device.
         CLCommandQueue queue = device.createCommandQueue();
         CLProgram program = null;
@@ -153,7 +154,7 @@ public class Main {
                 putWriteBuffer(longitudeArrayDevice, false).putWriteBuffer(gCostArrayDevice, false).
                 putWriteBuffer(hCostArrayDevice, false).putWriteBuffer(fCostArrayDevice, false)
                 .putWriteBuffer(visitedArrayDevice, false);
-        CLKernel kernel = program.createCLKernel("test");
+        CLKernel kernel = program.createCLKernel("astar");
 //        kernel.putArgs(vertexArrayDevice,edgeArrayDevice,weightArrayDevice,latitudeArrayDevice,
 //                longitudeArrayDevice,gCostArrayDevice,hCostArrayDevice,fCostArrayDevice,
 //                visitedArrayDevice,tempNodeListDevice,tempCostListDevice);
@@ -180,7 +181,7 @@ public class Main {
                 //printSolution(currentNode);
                 System.out.println("Solution found" + currentNode.fCost);
                 System.out.println("tIME TAKEN---->"+(System.currentTimeMillis()-millis));
-                return;
+                break;
             } else {
 //                if (graph.addExploredNode(currentNode)) {
 //                    expand(currentNode, graph, goalNode, frontier);
@@ -200,6 +201,8 @@ public class Main {
                 tempNodeListDevice.getBuffer().rewind();tempCostListDevice.getBuffer().rewind();
             }
         }
+        
+        System.out.println("Exiting A Star");
     }
 
     public void printSolution(Node goal) {
