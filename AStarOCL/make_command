@@ -1,1 +1,0 @@
-g++ -o oclAstar oclAstar.cpp -I/opt/AMDAPP/include -L/opt/AMDAPP/lib -lOpenCL
