@@ -65,7 +65,7 @@ public class Graph {
         }
         //System.out.println("Max adja:"+ maxAdj);
         //System.out.println("Adjacency list size"+adjList.getAdjacent(new Node(298)));
-        //System.out.println("node 2--->"+adjList.getAdjacent(new Node(2)));   
+        System.out.println("node 1363--->"+adjList.getAdjacent(new Node(1363)));   
     }
     public void populateCoordinates(){
         BufferedReader in = null;

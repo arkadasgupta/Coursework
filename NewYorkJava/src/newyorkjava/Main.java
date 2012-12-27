@@ -43,7 +43,7 @@ public class Main {
         System.out.println("Coordinate Processing Done");
         
         long millis = System.currentTimeMillis();
-        new Main().findRouteByAStar(1,264346,graph);
+        new Main().findRouteByAStar(1,26340,graph);
         System.out.println("Time taken by A-Star:"+(System.currentTimeMillis()-millis));
     }
 
@@ -115,8 +115,10 @@ public class Main {
     public void findRouteByAStar(int from, int to, Graph graph) {
         System.out.println("Source Node:"+from+"Goal node:"+to);
         if (from==to){
-            printSolution(new Node(from));
+            //printSolution(new Node(from));
+            System.out.println("soln found");
         }
+        int iterCount=0;
         Node goalNode = new Node(to);
         goalNode.latitude=graph.getNodecoordinates().get(to-1).latitude;
         goalNode.longitude=graph.getNodecoordinates().get(to-1).longitude;
@@ -125,8 +127,11 @@ public class Main {
         Node currentNode;
         while(!frontier.isEmpty()){
             currentNode = frontier.poll();
+            //System.out.println("curr node"+(currentNode.name));
+            //System.out.println("itercount"+(++iterCount));
             if(currentNode.equals(goalNode)){
-                printSolution(currentNode);
+                //printSolution(currentNode);
+                System.out.println("soln found");
                 return;
             }else{
                 if(graph.addExploredNode(currentNode)){
@@ -141,7 +146,7 @@ public class Main {
     public void printSolution(Node goal) {
         System.out.println("Solution path:");
         while (goal!=null){
-            System.out.println("node:"+goal.name+" gcost:"+goal.gCost);
+            System.out.println("node:"+goal.name+" gcost:"+goal.fCost);
             goal=goal.parent;
         }
     }
@@ -150,7 +155,8 @@ public class Main {
         List<Edge> edges = graph.getAdjList().getAdjacent(currentNode);
         for(Edge e : edges){
             Node childNode = e.to;
-            if(childNode.parent!=null && childNode.name==currentNode.name){
+            if(currentNode.parent!=null && childNode.name==currentNode.parent.name){
+                //System.out.println("enters this");
                 continue;
             }
             childNode.gCost = currentNode.gCost+e.weight;
