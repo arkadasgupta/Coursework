@@ -18,6 +18,7 @@
 #include "OCLCommon.h"
 #include <queue>
 #include <functional>
+#include <time.h>
 
 using namespace std;
 
@@ -147,7 +148,7 @@ void findByAStar( GraphData* graph, int src_vert, int goal_vert){
     
     cl_kernel astarKernel;
     astarKernel = clCreateKernel(program, "astar", &errNum);
-    cout<<"error:"<<errNum;
+    //cout<<"error:"<<errNum;
     errNum |= clSetKernelArg(astarKernel, 0, sizeof(cl_mem), &vertexArrayDevice);
     errNum |= clSetKernelArg(astarKernel, 1, sizeof(cl_mem), &edgeArrayDevice);
     errNum |= clSetKernelArg(astarKernel, 2, sizeof(cl_mem), &weightArrayDevice);
@@ -175,9 +176,12 @@ void findByAStar( GraphData* graph, int src_vert, int goal_vert){
     frontier.push(src_node);                                 //put src node in pq
     //heapNode chk = pq_peek(&frontier);
     //Node* chkr = &(chk.data);
-    Node chk = frontier.top();
+    //Node chk = frontier.top();
     //heapNode currentHNode;
     bool solnFound = false;
+    clock_t begin, end;
+    double time_spent;
+    begin = clock();
     
     while (!frontier.empty()) {                              //A-Star loop starts
         if(solnFound) break;
@@ -186,7 +190,11 @@ void findByAStar( GraphData* graph, int src_vert, int goal_vert){
         frontier.pop();
         visitedArray[currentNode.nodeNum - 1] = true;
         if (currentNode.nodeNum == goal_vert) {
-            cout << "Solution found" << endl;
+            end = clock();
+                time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
+            cout << "Solution found:" <<time_spent<< endl;
+            /* here, do your time-consuming job */
+        
             solnFound = true;
         } else {
             int currNode = currentNode.nodeNum;
